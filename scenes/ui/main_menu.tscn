@@ -1,0 +1,129 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/main_menu.gd" id="1_menu"]
+[ext_resource type="Texture2D" path="res://assets/sprites/fuutarou.png" id="2_fuutarou"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ichika.png" id="3_ichika"]
+[ext_resource type="Texture2D" path="res://assets/sprites/nino.png" id="4_nino"]
+[ext_resource type="Texture2D" path="res://assets/sprites/miku.png" id="5_miku"]
+[ext_resource type="Texture2D" path="res://assets/sprites/yotsuba.png" id="6_yotsuba"]
+[ext_resource type="Texture2D" path="res://assets/sprites/itsuki.png" id="7_itsuki"]
+
+[node name="MenuPrincipal" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_menu")
+
+[node name="Fundo" type="ColorRect" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.13, 0.17, 0.3, 1)
+
+[node name="Centro" type="CenterContainer" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Caixa" type="VBoxContainer" parent="Centro"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Titulo" type="Label" parent="Centro/Caixa"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.88, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 46
+text = "GOTOUBUN STUDY RUN"
+horizontal_alignment = 1
+
+[node name="Subtitulo" type="Label" parent="Centro/Caixa"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 18
+text = "Uma aventura de The Quintessential Quintuplets"
+horizontal_alignment = 1
+
+[node name="Personagens" type="HBoxContainer" parent="Centro/Caixa"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="Fuutarou" type="TextureRect" parent="Centro/Caixa/Personagens"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+texture = ExtResource("2_fuutarou")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Ichika" type="TextureRect" parent="Centro/Caixa/Personagens"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+texture = ExtResource("3_ichika")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Nino" type="TextureRect" parent="Centro/Caixa/Personagens"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+texture = ExtResource("4_nino")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Miku" type="TextureRect" parent="Centro/Caixa/Personagens"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+texture = ExtResource("5_miku")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Yotsuba" type="TextureRect" parent="Centro/Caixa/Personagens"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+texture = ExtResource("6_yotsuba")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Itsuki" type="TextureRect" parent="Centro/Caixa/Personagens"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+texture = ExtResource("7_itsuki")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="BotaoIniciar" type="Button" parent="Centro/Caixa"]
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Iniciar o jogo"
+[node name="BotaoCreditos" type="Button" parent="Centro/Caixa"]
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Créditos"
+[node name="BotaoSair" type="Button" parent="Centro/Caixa"]
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Sair"
+[node name="Recorde" type="Label" parent="Centro/Caixa"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 16
+text = "Recorde: 0 pontos"
+horizontal_alignment = 1
+
