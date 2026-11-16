@@ -2,8 +2,21 @@
 # Legenda: # parede | B estante | T mesa | . chão | , tapete
 #   P jogador | N Nino (persegue) | Y Yotsuba (patrulha)
 #   F prova | $ nota de 5000 ienes | D porta de saída
+#
+# Script só de dados: guarda a lista de fases usada por scripts/levels/level.gd.
+# O level.gd escolhe a fase com Game.fase_atual, lê o mapa ASCII e cria as
+# paredes, móveis, jogador, inimigos, provas, notas e porta a partir das letras.
+# Atenção: rodar "python3 tools/gerar_mapas.py" de novo reescreve este arquivo
+# inteiro (inclusive estes comentários).
 class_name LevelData
 
+## Lista de fases, na ordem em que são jogadas (índice 0 = Fase 1).
+## Cada fase é um Dictionary com as chaves:
+##   "nome"     – texto mostrado na HUD (interface.definir_fase);
+##   "tempo"    – tempo inicial da fase, copiado para level.tempo_restante;
+##   "objetivo" – mensagem exibida na HUD no começo da fase;
+##   "mapa"     – Array de Strings, uma por linha do mapa (legenda no topo).
+## Os mapas têm 48 colunas por 30 linhas, como definido em tools/gerar_mapas.py.
 const FASES: Array = [
 	{
 		"nome": "Fase 1 - Colégio Kōryō",
