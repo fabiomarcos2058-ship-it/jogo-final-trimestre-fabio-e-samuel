@@ -49,6 +49,19 @@ As ações de teclado/mouse são registradas por código em `scripts/autoload/ga
 1. Abra o **Godot 4.5 ou mais novo** > **Importar** > selecione `project.godot`.
 2. Aguarde a importação dos assets e aperte **F5**.
 
+## Controles
+
+As ações são criadas por código em `_registrar_entradas()` (`scripts/autoload/game.gd`), então não é preciso configurar o Mapa de Entrada no editor.
+
+| Ação (`InputMap`) | Teclado | Mouse | O que faz |
+|---|---|---|---|
+| `cima` | **W** / **↑** | | move para cima |
+| `baixo` | **S** / **↓** | | move para baixo |
+| `esquerda` | **A** / **←** | | move para a esquerda |
+| `direita` | **D** / **→** | | move para a direita |
+| `atirar` | **Espaço** / **J** | **clique esquerdo** | arremessa um livro; pelo teclado vai na direção em que o jogador olha, com o mouse vai na direção do cursor |
+| `pausar` | **Esc** / **P** | | abre ou fecha o menu de pausa |
+
 ## GitHub (exigência do trabalho)
 
 Os commits precisam ser semanais, dos dois integrantes e com mensagens descritivas. Sugestão de histórico:
