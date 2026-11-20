@@ -62,6 +62,37 @@ As ações são criadas por código em `_registrar_entradas()` (`scripts/autoloa
 | `atirar` | **Espaço** / **J** | **clique esquerdo** | arremessa um livro; pelo teclado vai na direção em que o jogador olha, com o mouse vai na direção do cursor |
 | `pausar` | **Esc** / **P** | | abre ou fecha o menu de pausa |
 
+## Como os assets e os mapas são gerados (`tools/`)
+
+Os sprites, o tileset, os sons e os mapas não foram desenhados à mão: eles saem de dois scripts Python na pasta `tools/`. Rode-os a partir da raiz do projeto.
+
+### `tools/gerar_assets.py` (precisa de **Pillow** e **numpy**)
+
+```
+python3 tools/gerar_assets.py
+```
+
+| O que gera | Onde salva | Como |
+|---|---|---|
+| Personagens: `fuutarou`, `ichika`, `nino`, `miku`, `yotsuba`, `itsuki` | `assets/sprites/*.png` | desenhados pixel a pixel numa grade 16x16 (classe `Grade`), com contorno, e ampliados 2x para 32x32 |
+| Itens e porta: `prova`, `nota`, `soda`, `livro`, `porta_fechada`, `porta_aberta` | `assets/sprites/*.png` | mesma grade 16x16 ampliada para 32x32 |
+| Tileset (atlas com os tiles de 32x32 lado a lado) | `assets/tiles/tileset.png` | montado com numpy em `gerar_tileset()` (semente fixa `7`, então o resultado se repete) |
+| Efeitos sonoros e música | `assets/audio/*.wav` | ondas quadrada, triangular e ruído em `onda()`, gravadas como WAV mono 16 bits a 22050 Hz |
+
+As pastas `assets/sprites`, `assets/tiles` e `assets/audio` são criadas se não existirem, e os arquivos antigos são sobrescritos.
+
+### `tools/gerar_mapas.py` (só biblioteca padrão)
+
+```
+python3 tools/gerar_mapas.py
+```
+
+- Monta os mapas das 2 fases (48 colunas x 30 linhas, com borda de parede) nas funções `fase1()` e `fase2()`.
+- Valida cada mapa antes de salvar: uma busca em largura (BFS) a partir do `P` confere se todas as provas (`F`), notas (`$`), inimigos (`N`/`Y`) e a porta (`D`) são alcançáveis sem atravessar `#`, `B` ou `T`, e se há exatamente 5 provas e 1 porta.
+- Imprime os mapas no terminal e reescreve **por inteiro** `scripts/levels/level_data.gd` (nome, tempo de 150 s e objetivo de cada fase + o mapa ASCII). Comentários adicionados à mão nesse arquivo se perdem ao rodar o script de novo.
+
+Depois de rodar qualquer um dos dois, abra o projeto na Godot para ela reimportar os arquivos alterados.
+
 ## GitHub (exigência do trabalho)
 
 Os commits precisam ser semanais, dos dois integrantes e com mensagens descritivas. Sugestão de histórico:
