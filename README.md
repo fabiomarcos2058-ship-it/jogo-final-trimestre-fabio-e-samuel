@@ -62,6 +62,29 @@ As ações são criadas por código em `_registrar_entradas()` (`scripts/autoloa
 | `atirar` | **Espaço** / **J** | **clique esquerdo** | arremessa um livro; pelo teclado vai na direção em que o jogador olha, com o mouse vai na direção do cursor |
 | `pausar` | **Esc** / **P** | | abre ou fecha o menu de pausa |
 
+## Camadas de colisão
+
+Os nomes das camadas estão em `project.godot` (`[layer_names]`). Na Godot, `collision_layer` diz **em qual camada** o objeto está e `collision_mask` diz **quais camadas** ele detecta (o valor é a soma dos bits: camada 1 = 1, 2 = 2, 3 = 4, 4 = 8, 5 = 16).
+
+| Camada | Nome | Quem está nela |
+|---|---|---|
+| 1 | `mundo` | paredes do `TileMapLayer` (`resources/tileset_escola.tres`; `_garantir_colisao_do_tileset()` em `level.gd` cria a camada se faltar) |
+| 2 | `jogador` | Fuutarou (`player.tscn`) |
+| 3 | `inimigos` | corpo da Nino e da Yotsuba (`enemy_nino.tscn`, `enemy_yotsuba.tscn`) |
+| 4 | `itens` | prova, nota e refri (`item_prova.tscn`, `item_nota.tscn`, `item_soda.tscn`) |
+| 5 | `projeteis` | livro arremessado (`projectile.tscn`) |
+
+| Cena / nó | `collision_layer` | `collision_mask` | Detecta |
+|---|---|---|---|
+| `Jogador` (`CharacterBody2D`) | 2 | 1 | paredes |
+| Irmã (`CharacterBody2D`) | 4 | 1 | paredes |
+| Irmã > `AreaDano` (`Area2D`) | 0 | 2 | jogador (é o que tira vida) |
+| Itens (`Area2D`) | 8 | 2 | jogador |
+| `Porta` (`Area2D`) | 0 | 2 | jogador |
+| `Livro` (`Area2D`) | 16 | 5 | paredes e irmãs (1 + 4) |
+
+A visão da Nino usa um raycast só na camada 1 (`enemy.gd`), por isso apenas as paredes bloqueiam a linha de visão.
+
 ## Como os assets e os mapas são gerados (`tools/`)
 
 Os sprites, o tileset, os sons e os mapas não foram desenhados à mão: eles saem de dois scripts Python na pasta `tools/`. Rode-os a partir da raiz do projeto.
