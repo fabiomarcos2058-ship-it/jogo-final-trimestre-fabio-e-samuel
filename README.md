@@ -62,6 +62,60 @@ As ações são criadas por código em `_registrar_entradas()` (`scripts/autoloa
 | `atirar` | **Espaço** / **J** | **clique esquerdo** | arremessa um livro; pelo teclado vai na direção em que o jogador olha, com o mouse vai na direção do cursor |
 | `pausar` | **Esc** / **P** | | abre ou fecha o menu de pausa |
 
+## Estrutura das cenas
+
+A cena inicial é `scenes/ui/main_menu.tscn` (`run/main_scene` em `project.godot`). O autoload `Game` (`scripts/autoload/game.gd`) fica ativo o tempo todo e troca de tela com `ir_para()`, que tira a pausa e chama `change_scene_to_file` adiado:
+
+| Constante em `game.gd` | Cena |
+|---|---|
+| `CENA_MENU` | `scenes/ui/main_menu.tscn` |
+| `CENA_FASE` | `scenes/levels/level.tscn` |
+| `CENA_FIM` | `scenes/ui/end_screen.tscn` |
+| `CENA_CREDITOS` | `scenes/ui/credits.tscn` |
+
+### Fase (`scenes/levels/level.tscn`, script `level.gd`)
+
+```
+Fase (Node2D)
+├── Cenario (Node2D)
+│   ├── Chao (TileMapLayer)
+│   └── Paredes (TileMapLayer)
+├── Portas (Node2D)        ← recebe a porta (door.tscn)
+├── Itens (Node2D)         ← recebe provas, notas e refris
+├── Inimigos (Node2D)      ← recebe Nino e Yotsuba
+├── Projeteis (Node2D)     ← recebe os livros arremessados pelo jogador
+├── Jogador                (instância de player.tscn)
+├── Interface              (instância de hud.tscn)
+├── MenuPausa              (instância de pause_menu.tscn)
+├── TimerItens (Timer)
+└── TimerInimigos (Timer)
+```
+
+Os nós `Portas`, `Itens`, `Inimigos` e `Projeteis` começam vazios: `level.gd` instancia as cenas carregadas com `preload` (`CENA_NINO`, `CENA_YOTSUBA`, `CENA_PROVA`, `CENA_NOTA`, `CENA_SODA`, `CENA_PORTA`) e as adiciona com `add_child`. O livro é criado em `atirar()` de `player.gd`, dentro de `container_projeteis` (ou do pai do jogador, se ele não estiver definido).
+
+### Entidades (`scenes/entities/`)
+
+| Cena | Raiz | Filhos | Script |
+|---|---|---|---|
+| `player.tscn` | `Jogador` (`CharacterBody2D`) | `Sprite`, `Colisao`, `Camera` (`Camera2D`) | `player.gd` |
+| `enemy_nino.tscn` / `enemy_yotsuba.tscn` | `Nino` / `Yotsuba` (`CharacterBody2D`) | `Sprite`, `Colisao`, `AreaDano` (`Area2D` > `Forma`), `Aviso` (`Label`) | `enemy.gd` (o mesmo nas duas) |
+| `item_prova.tscn` | `Prova` (`Area2D`) | `Sprite`, `Colisao`, `Nome` (`Label`) | `collectible.gd` |
+| `item_nota.tscn` / `item_soda.tscn` | `Nota` / `Soda` (`Area2D`) | `Sprite`, `Colisao` | `collectible.gd` |
+| `door.tscn` | `Porta` (`Area2D`) | `Sprite`, `Colisao` | `door.gd` |
+| `projectile.tscn` | `Livro` (`Area2D`) | `Sprite`, `Colisao` | `projectile.gd` |
+
+### Interface (`scenes/ui/`)
+
+| Cena | Raiz | Conteúdo principal | Script |
+|---|---|---|---|
+| `main_menu.tscn` | `MenuPrincipal` (`Control`) | título, subtítulo, 6 `TextureRect` dos personagens, botões Iniciar/Créditos/Sair e `Recorde` | `main_menu.gd` |
+| `hud.tscn` | `Interface` (`CanvasLayer`) | `Barra` com `Fase`, `Vidas`, `Pontos`, `Tempo`; `ListaProvas`; `Mensagem` | `hud.gd` |
+| `pause_menu.tscn` | `MenuPausa` (`CanvasLayer`) | botões Continuar, Menu e Sair | `pause_menu.gd` |
+| `end_screen.tscn` | `TelaFinal` (`Control`) | `Titulo`, `Personagens`, `Motivo`, `Estatisticas`, botões Jogar novamente e Menu | `end_screen.gd` |
+| `credits.tscn` | `Creditos` (`Control`) | `Titulo`, `Texto`, `BotaoVoltar` | `credits.gd` |
+
+Os menus usam a mesma montagem: `Fundo` (`ColorRect`) > `Centro` (`CenterContainer`) > `Caixa` (`VBoxContainer`).
+
 ## Camadas de colisão
 
 Os nomes das camadas estão em `project.godot` (`[layer_names]`). Na Godot, `collision_layer` diz **em qual camada** o objeto está e `collision_mask` diz **quais camadas** ele detecta (o valor é a soma dos bits: camada 1 = 1, 2 = 2, 3 = 4, 4 = 8, 5 = 16).
