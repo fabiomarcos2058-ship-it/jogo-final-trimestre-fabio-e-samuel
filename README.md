@@ -170,6 +170,31 @@ python3 tools/gerar_mapas.py
 
 Depois de rodar qualquer um dos dois, abra o projeto na Godot para ela reimportar os arquivos alterados.
 
+## Pontuação, vidas e fim de partida
+
+Todos os pontos passam por `Game.adicionar_pontos()` (`scripts/autoload/game.gd`), que atualiza a HUD pelo sinal `pontos_mudou`.
+
+| Evento | Pontos | Onde está no código |
+|---|---|---|
+| Recolher uma prova | +200 | `_ao_entrar()` em `scripts/entities/collectible.gd` |
+| Recolher uma nota de 5000 ienes | +100 | `_ao_entrar()` em `scripts/entities/collectible.gd` |
+| Pegar um refri de matcha com as vidas já no máximo | +50 (no lugar da cura) | `_ao_entrar()` em `scripts/entities/collectible.gd` |
+| Acertar um livro em uma irmã que não estava atordoada | +50 | `atordoar()` em `scripts/entities/enemy.gd` |
+| Completar a fase | +5 por segundo restante | `_vencer_fase()` em `scripts/levels/level.gd` |
+
+Vidas:
+
+- A partida começa com `VIDAS_INICIAIS = 3` e nunca passa de `VIDAS_MAX = 5`.
+- Encostar em uma irmã tira 1 vida (`tomar_dano()` em `scripts/entities/player.gd`) e deixa o jogador invulnerável por `tempo_invulneravel` (1,5 s).
+- O refri de matcha cura 1 vida (`curar()`), e passar de fase dá +1 vida (`Game.proxima_fase()`), sempre respeitando o máximo.
+- As vidas ficam guardadas em `Game.vidas`, então passam de uma fase para a outra.
+
+Fim de partida:
+
+- **Derrota:** as vidas chegam a 0 ou o tempo da fase (150 s, definido em `level_data.gd`) zera; `_derrota()` em `level.gd` espera 0,8 s e chama `Game.terminar(false, ...)`.
+- **Vitória:** ao completar a última fase, `_vencer_fase()` chama `Game.terminar(true, ...)`; nas fases anteriores ela mostra o bônus de tempo por 2,5 s e chama `Game.proxima_fase()`.
+- Em `Game.terminar()`, se a pontuação for maior que o recorde, ele é salvo em `user://recorde.cfg` (seção `jogo`, chave `recorde`) e carregado de novo quando o jogo abre.
+
 ## GitHub (exigência do trabalho)
 
 Os commits precisam ser semanais, dos dois integrantes e com mensagens descritivas. Sugestão de histórico:
