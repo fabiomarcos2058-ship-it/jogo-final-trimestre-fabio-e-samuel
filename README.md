@@ -49,6 +49,19 @@ As ações de teclado/mouse são registradas por código em `scripts/autoload/ga
 1. Abra o **Godot 4.5 ou mais novo** > **Importar** > selecione `project.godot`.
 2. Aguarde a importação dos assets e aperte **F5**.
 
+## Configurações do projeto (`project.godot`)
+
+| Configuração | Valor | Para que serve |
+|---|---|---|
+| `application/run/main_scene` | `res://scenes/ui/main_menu.tscn` | cena aberta ao apertar **F5** (menu principal) |
+| `application/config/features` | `4.5`, `GL Compatibility` | versão da Godot e renderizador usados |
+| `autoload` | `Game` → `res://scripts/autoload/game.gd` | singleton global com o estado da partida |
+| `display/window/size/viewport_width` × `viewport_height` | 960 × 540 | resolução base da janela |
+| `display/window/stretch/mode` | `canvas_items` | a tela é redimensionada mantendo a cena 2D proporcional |
+| `rendering/renderer/rendering_method` (e `.mobile`) | `gl_compatibility` | renderizador de compatibilidade, leve e suportado em mais placas de vídeo |
+| `rendering/textures/canvas_textures/default_texture_filter` | `0` (Nearest) | mantém a pixel art nítida, sem suavizar os pixels |
+| `layer_names/2d_physics` | `mundo`, `jogador`, `inimigos`, `itens`, `projeteis` | nomes das camadas 1 a 5 (veja *Camadas de colisão*) |
+
 ## Controles
 
 As ações são criadas por código em `_registrar_entradas()` (`scripts/autoload/game.gd`), então não é preciso configurar o Mapa de Entrada no editor.
