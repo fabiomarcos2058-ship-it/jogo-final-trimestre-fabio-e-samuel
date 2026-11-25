@@ -208,6 +208,31 @@ Fim de partida:
 - **Vitória:** ao completar a última fase, `_vencer_fase()` chama `Game.terminar(true, ...)`; nas fases anteriores ela mostra o bônus de tempo por 2,5 s e chama `Game.proxima_fase()`.
 - Em `Game.terminar()`, se a pontuação for maior que o recorde, ele é salvo em `user://recorde.cfg` (seção `jogo`, chave `recorde`) e carregado de novo quando o jogo abre.
 
+## Melhorias de documentação feitas
+
+Nenhuma dessas melhorias mudou o comportamento do jogo: só foram acrescentados comentários (`#` e `##`) nos scripts e seções neste README.
+
+Scripts comentados (funções, variáveis e sinais explicados):
+
+| Pasta | Scripts |
+|---|---|
+| `scripts/entities/` | `player.gd`, `enemy.gd`, `projectile.gd`, `collectible.gd`, `door.gd` |
+| `scripts/ui/` | `hud.gd`, `pause_menu.gd`, `end_screen.gd`, `main_menu.gd`, `credits.gd` |
+| `scripts/autoload/` | `game.gd` |
+| `scripts/levels/` | `level.gd`, `level_data.gd` (estrutura dos dados das fases) |
+
+Seções adicionadas ao README:
+
+- Configurações do projeto (`project.godot`)
+- Controles
+- Estrutura das cenas
+- Camadas de colisão
+- Como os assets e os mapas são gerados (`tools/`)
+- Pontuação, vidas e fim de partida
+- Esta lista de melhorias
+
+Atenção: rodar `tools/gerar_mapas.py` reescreve `scripts/levels/level_data.gd` e apaga os comentários desse arquivo.
+
 ## GitHub (exigência do trabalho)
 
 Os commits precisam ser semanais, dos dois integrantes e com mensagens descritivas. Sugestão de histórico:
